@@ -1,0 +1,32 @@
+{
+    "name": "typescriptmaygb",
+    "version": "1.0.0",
+    "description": "Homeworks to the course TypeScript 11.05.2022 GeekBrains",
+    "main": "index.js",
+    "scripts": {
+        "build": "rm -rf public/scripts && tsc",
+        "build:dev": "rm -rf public/scripts && tsc -p tsconfig-dev.json",
+        "start": "http-server -p 3000",
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "lint": "eslint src --ext .js --ext .ts",
+        "lint-fix": "eslint src --ext .js --ext .ts --fix"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Nikitoskaluv/TypeScriptMayGB.git"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/Nikitoskaluv/TypeScriptMayGB/issues"
+    },
+    "homepage": "https://github.com/Nikitoskaluv/TypeScriptMayGB#readme",
+    "devDependencies": {
+        "@typescript-eslint/eslint-plugin": "^5.23.0",
+        "@typescript-eslint/parser": "^5.23.0",
+        "eslint": "^8.15.0",
+        "http-server": "^14.1.0",
+        "typescript": "^4.6.4"
+    }
+}
