@@ -2,25 +2,25 @@ import { renderBlock } from './lib.js';
 
 export function renderSearchFormBlock(dateCheckIn: string, dateCheckout: string) {
 
-  const today = new Date;
+  const today: Date = new Date;
   // минимально возможная дата заселения и выселения
-  const min = today.toISOString().split('T')[0];
-  console.log(min)
+  const min: string = today.toISOString().split('T')[0];
+  console.log(typeof (min))
 
   // максимально возможная дата заселения выселения
   function find_max(objDate: Date): string {
-    const lastDayOfNextMonth = new Date(objDate.getFullYear(), objDate.getMonth() + 2,);
+    const lastDayOfNextMonth: Date = new Date(objDate.getFullYear(), objDate.getMonth() + 2,);
     return lastDayOfNextMonth.toISOString().split('T')[0];
   }
 
   //переведенная в нужный формат дата заезда по умолчанию
-  const default_dci = new Date();
+  const default_dci: Date = new Date();
   default_dci.setDate(default_dci.getDate() + 1);
-  const transformed_default_dci = default_dci.toISOString().split('T')[0];
+  const transformed_default_dci: string = default_dci.toISOString().split('T')[0];
 
   //функция возвращает выезд по умолчанию для даты заезда по умолчанию и для введенной даты заезда
   function default_checkout(objDate: Date): string {
-    const default_dco = new Date(objDate.setDate(objDate.getDate() + 2));
+    const default_dco: Date = new Date(objDate.setDate(objDate.getDate() + 2));
     return default_dco.toISOString().split('T')[0];
   }
   let check_in: string;
