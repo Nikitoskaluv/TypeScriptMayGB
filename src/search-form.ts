@@ -1,48 +1,54 @@
 import { renderBlock } from './lib.js';
 
 export function renderSearchFormBlock(dateCheckIn: string, dateCheckout: string) {
+  const TWO_DAYS = 2;
+  const ONE_MONTH = 1;
+  const TWO_MONTHS = 2;
+
 
   const today: Date = new Date;
   // минимально возможная дата заселения и выселения
-  const min: string = today.toISOString().split('T')[0];
-  console.log(typeof (min))
+  const min = `${today.getFullYear()}-${('0' + (today.getMonth() + ONE_MONTH)).slice(-2)}-${today.getDate()}`;
 
   // максимально возможная дата заселения выселения
-  function find_max(objDate: Date): string {
-    const lastDayOfNextMonth: Date = new Date(objDate.getFullYear(), objDate.getMonth() + 2,);
-    return lastDayOfNextMonth.toISOString().split('T')[0];
+  function findMax(objDate: Date): string {
+    const lastDayOfNextMonth: Date = new Date(objDate.getFullYear(), objDate.getMonth() + TWO_MONTHS, 0);
+    return `${lastDayOfNextMonth.getFullYear()}-${('0' + (lastDayOfNextMonth.getMonth() + ONE_MONTH)).slice(-2)}-${lastDayOfNextMonth.getDate()}`;
   }
 
   //переведенная в нужный формат дата заезда по умолчанию
-  const default_dci: Date = new Date();
-  default_dci.setDate(default_dci.getDate() + 1);
-  const transformed_default_dci: string = default_dci.toISOString().split('T')[0];
+
+  const defaultDCI: Date = new Date(today.setDate(today.getDate() + 1));
+  console.log(defaultDCI);
+  const transformedDefaultDCI = `${defaultDCI.getFullYear()}-${('0' + (defaultDCI.getMonth() + ONE_MONTH)).slice(-2)}-${defaultDCI.getDate()}`
 
   //функция возвращает выезд по умолчанию для даты заезда по умолчанию и для введенной даты заезда
-  function default_checkout(objDate: Date): string {
-    const default_dco: Date = new Date(objDate.setDate(objDate.getDate() + 2));
-    return default_dco.toISOString().split('T')[0];
+  function defaultCheckout(objDate: Date): string {
+    const defaultDCO: Date = new Date(objDate.setDate(objDate.getDate() + TWO_DAYS));
+    return `${defaultDCO.getFullYear()}-${('0' + (defaultDCO.getMonth() + ONE_MONTH)).slice(-2)}-${('0' + defaultDCO.getDate()).slice(-2)}`;
   }
-  let check_in: string;
-  let check_out: string;
-  let max_checkOut: string;
-  let max_default: string;
-  let min_checkout: string;
+  let checkIn: string;
+  let checkOut: string;
+  let maxCheckOut: string;
+  let maxDefault: string;
+  let minCheckout: string;
 
   if (dateCheckIn === '') {
 
-    check_in = transformed_default_dci;
-    check_out = (dateCheckout === '') ? default_checkout(default_dci) : dateCheckout;
-    max_default = find_max(default_dci);
-    max_checkOut = find_max(default_dci);
-    min_checkout = transformed_default_dci
+    checkIn = transformedDefaultDCI;
+    checkOut = (dateCheckout === '') ? defaultCheckout(defaultDCI) : dateCheckout;
+    maxDefault = findMax(defaultDCI);
+    maxCheckOut = findMax(defaultDCI);
+    minCheckout = transformedDefaultDCI
   } else {
     const dciInToObj = new Date(dateCheckIn);
-    const dci = dciInToObj.toISOString().split('T')[0];
-    check_in = dci;
-    check_out = (dateCheckout === '') ? default_checkout(dciInToObj) : dateCheckout;
-    min_checkout = dci;
-    max_checkOut = find_max(dciInToObj);
+    console.log(dciInToObj);
+    const dci = `${dciInToObj.getFullYear()}-${('0' + (dciInToObj.getMonth() + ONE_MONTH)).slice(-2)}-${('0' + dciInToObj.getDate()).slice(-2)}`
+    checkIn = dci;
+    checkOut = (dateCheckout === '') ? defaultCheckout(dciInToObj) : dateCheckout;
+    maxDefault = findMax(dciInToObj)
+    minCheckout = dci;
+    maxCheckOut = findMax(dciInToObj);
   }
 
   renderBlock(
@@ -65,12 +71,12 @@ export function renderSearchFormBlock(dateCheckIn: string, dateCheckout: string)
         <div class="row">
           <div>
             <label for="check-in-date">Дата заезда</label>
-            <input id="check-in-date" type="date" value="${check_in}" 
-            min="${min}" max="${max_default}" name="checkin" />
+            <input id="check-in-date" type="date" value="${checkIn}" 
+            min="${min}" max="${maxDefault}" name="checkin" />
   </div>
   <div>
   <label for="check-out-date"> Дата выезда </label>
-    <input id="check-out-date" type ="date" value="${check_out}" min="${min_checkout}" max="${max_checkOut}" name="checkout"/>
+    <input id="check-out-date" type ="date" value="${checkOut}" min="${minCheckout}" max="${maxCheckOut}" name="checkout"/>
       </div>
       <div>
       <label for="max-price"> Макс.цена суток </label>
