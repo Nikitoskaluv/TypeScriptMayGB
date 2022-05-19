@@ -1,20 +1,14 @@
-import { Book } from './book.js';
-import { books } from './books-collection.js';
+import { renderSearchFormBlock } from './search-form.js'
+import { renderSearchStubBlock } from './search-results.js'
+import { renderUserBlock } from './user.js'
+import { renderToast } from './lib.js'
 
-function findSuitableBook(genre: string, pagesLimit: number, multiple = true): Book | Book[] {
-  function searchAlgorithm(book: { genre: string; pageAmount: number }) {
-    return book.genre === genre && book.pageAmount <= pagesLimit
-  }
-  if (multiple) {
-    return books.filter(searchAlgorithm);
-  } else {
-    return books.find(searchAlgorithm);
-  }
-}
-const book = findSuitableBook('fantasy', 1000);
-
-if (book instanceof Book) {
-  console.log(book.genre);
-} else {
-  console.log(book[0]);
-}
+window.addEventListener('DOMContentLoaded', () => {
+  renderUserBlock('Ann Smith', './img/avatar.png', 0);
+  renderSearchFormBlock('', '');
+  renderSearchStubBlock();
+  renderToast(
+    { text: 'Это пример уведомления. Используйте его при необходимости', type: 'success' },
+    { name: 'Понял', handler: () => { console.log('Уведомление закрыто') } }
+  )
+})
