@@ -27,21 +27,33 @@ export function getFavoritesAmount(key: string): unknown {
   }
 }
 
+// export function getUserData(key: string): Person {
+//   const resp = localStorage.getItem(key);
+//   if (resp == null) {
+//     return null;
+//   }
+//   let value: unknown;
+//   let person: Person;
+//   try {
+//     value = JSON.parse(resp);
+//     person = value as Person;
+//   } catch {
+//     return null
+//   }
+//   return person;
+// }
+
 export function getUserData(key: string): Person {
-  const resp = localStorage.getItem(key);
-  if (resp == null) {
-    return null;
-  }
-  let value: unknown;
-  let person: Person;
-  try {
-    value = JSON.parse(resp);
-    person = value as Person;
-  } catch {
+  const resp: unknown = JSON.parse(localStorage.getItem(key));
+  if (typeof resp === 'object') {
+    if ('username' in resp && 'avatarUrl' in resp) {
+      return resp as Person;
+    }
+  } else {
     return null
   }
-  return person;
 }
+
 
 export function renderUserBlock(userName: string, avatarLink: string, favoriteItemsAmount?: number) {
   const favoritesCaption = favoriteItemsAmount ? favoriteItemsAmount : 'ничего нет'
