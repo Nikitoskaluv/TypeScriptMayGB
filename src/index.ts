@@ -1,4 +1,4 @@
-import { renderSearchFormBlock, transferData, search, dataFromForm } from './search-form.js'
+import { renderSearchFormBlock, transferData } from './search-form.js'
 import { renderSearchStubBlock } from './search-results.js'
 import { renderUserBlock, getUserData, getFavoritesAmount } from './user.js'
 import { renderToast } from './lib.js'
@@ -23,5 +23,5 @@ window.addEventListener('DOMContentLoaded', () => {
   )
 
   transferData();
-  
+
 })

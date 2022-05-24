@@ -6,7 +6,9 @@ interface FormObject {
   checkOutDate?: string
   maxPrice?: number
 }
-interface Place { };
+interface Place {
+  place: string
+}
 
 export function searchFormData(id: string) {
   const form = document.querySelector('#form');
@@ -34,15 +36,15 @@ export function transferData() {
 // export function search(object: FormObject): void {
 //   console.log(object)
 // }
-function callbackForSearch(res) {
+function callbackForSearch(res: string | Array<Place>) {
   console.log(res);
 }
 
-export function search(object: FormObject, callback): void {
+export function search(object: FormObject, callback: (res: string | Array<Place>) => void): void {
   console.log(object);
-  const a = [{} as Place, {} as Place];
+  const arr = [{} as Place, {} as Place];
   setTimeout(() => {
-    callback(Math.random() < 0.5 ? 'Error' : a)
+    callback(Math.random() < 0.5 ? 'Error' : arr)
   }, 1000);
 }
 

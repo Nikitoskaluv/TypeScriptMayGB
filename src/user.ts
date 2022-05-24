@@ -12,17 +12,18 @@ export class Person {
 }
 
 const person1 = new Person('Ann Smith', './img/avatar.png');
-const favourites = 4;
+const favourites = 'd333';
 localStorage.setItem('user', JSON.stringify(person1));
 localStorage.setItem('favoritesAmount', favourites.toString());
 
 
 export function getFavoritesAmount(key: string): unknown {
-  const resp = localStorage.getItem(key);
-  if (resp == null) {
+  const resp: unknown = localStorage.getItem(key);
+  const numResp = Number(resp);
+  if (isNaN(numResp)) {
     return 0;
-  } if (typeof (resp) == 'string') {
-    return parseInt(resp);
+  } if (typeof (numResp) == 'number') {
+    return numResp;
   }
 }
 
