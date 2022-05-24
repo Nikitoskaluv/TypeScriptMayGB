@@ -1,20 +1,27 @@
-import { Book } from './book.js';
-import { books } from './books-collection.js';
+import { renderSearchFormBlock, transferData } from './search-form.js'
+import { renderSearchStubBlock } from './search-results.js'
+import { renderUserBlock, getUserData, getFavoritesAmount } from './user.js'
+import { renderToast } from './lib.js'
 
-function findSuitableBook(genre: string, pagesLimit: number, multiple = true): Book | Book[] {
-  function searchAlgorithm(book: { genre: string; pageAmount: number }) {
-    return book.genre === genre && book.pageAmount <= pagesLimit
-  }
-  if (multiple) {
-    return books.filter(searchAlgorithm);
-  } else {
-    return books.find(searchAlgorithm);
-  }
-}
-const book = findSuitableBook('fantasy', 1000);
 
-if (book instanceof Book) {
-  console.log(book.genre);
-} else {
-  console.log(book[0]);
-}
+window.addEventListener('DOMContentLoaded', () => {
+
+  const personObj = getUserData('user');
+  const fav = getFavoritesAmount('favoritesAmount');
+
+  if (personObj == null) {
+    console.error('Нет пользователя');
+  } if (typeof (fav) == 'number') {
+    renderUserBlock(personObj.username, personObj.avatarUrl, fav);
+  }
+
+  renderSearchFormBlock('', '');
+  renderSearchStubBlock();
+  renderToast(
+    { text: 'Это пример уведомления. Используйте его при необходимости', type: 'success' },
+    { name: 'Понял', handler: () => { console.log('Уведомление закрыто') } }
+  )
+
+  transferData();
+
+})
